@@ -1,8 +1,3 @@
-# This allows to link libraries to main project from current library
-if(POLICY CMP0079 )
-  cmake_policy(SET CMP0079 NEW)
-endif()
-
 add_library(encoder STATIC
     quadrature_encoder.pio.h
     encoder.h

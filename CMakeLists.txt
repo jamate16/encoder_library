@@ -1,7 +1,7 @@
 add_library(encoder STATIC
     quadrature_encoder.pio.h
-    encoder.h
-    encoder.cpp
+    Encoder.h
+    Encoder.cpp
 )
 
 # pico_generate_pio_header(encoder ${CMAKE_CURRENT_LIST_DIR}/quadrature_encoder.pio)

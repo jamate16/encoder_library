@@ -1,4 +1,4 @@
-#include "encoder.h"
+#include "Encoder.h"
 
 Encoder::Encoder(int _pinA, int _pinB, int ppr, PIO _pio) {
     pinA = _pinA;
@@ -25,7 +25,7 @@ void Encoder::init() {
 void Encoder::calculateStates() {
     static absolute_time_t last_time {get_absolute_time()};
     absolute_time_t current_time = get_absolute_time();
-    int64_t delta_time_us = absolute_time_diff_us(current_time, last_time);
+    int64_t delta_time_us = absolute_time_diff_us(last_time, current_time);
 
     enc_count = quadrature_encoder_get_count(pio, sm);
     int32_t delta_enc_count = enc_count - last_enc_count;
@@ -46,13 +46,13 @@ void Encoder::calculatePosition() {
     // position += static_cast<double>(delta_enc_count) / (cpr / _2PI); // This also works fine, don't know if computationally they are the same though
 }
 
-double Encoder::getPosition() { return position; }
-
 void Encoder::calculateVelocity(int64_t delta_time_us, int32_t delta_enc_count) {
     double delta_angle_rad = static_cast<double>(delta_enc_count) / (cpr / _2PI);
-    double delta_time_s = static_cast<double>(delta_time_us) * 1e-6f;
-    velocity = delta_angle_rad / delta_time_s;
+    double delta_time = static_cast<double>(delta_time_us) * 1e-6f;
+
+    velocity = delta_angle_rad / delta_time;
 }
 
+double Encoder::getPosition() { return position; }
 double Encoder::getVelocity() { return velocity; }
 
